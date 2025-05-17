@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Results for {{ result.ticker }}</h1>
+
+    {% if result.status == "success" %}
+        <p><strong>Precision:</strong> {{ result.precision }}</p>
+        <p><strong>Prediction Distribution:</strong> {{ result.prediction_distribution }}</p>
+        <p><strong>Target Distribution:</strong> {{ result.target_distribution }}</p>
+    {% else %}
+        <p style="color: red;">Error: {{ result.message }}</p>
+    {% endif %}
+
+    <a href="/">Try Another</a>
+</body>
+</html>

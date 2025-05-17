@@ -1,0 +1,143 @@
+/* Reset default styles */
+body, h1, h2, p, form, input, select, button, label {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Background and font */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #f7f9fc, #e2e8f0);
+  color: #333;
+  padding: 20px;
+}
+
+/* Main container with flex layout */
+/* Main container with flex layout */
+.container {
+  display: flex;
+  height: 100vh; /* Full screen height */
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Left form section (fixed size) */
+.form-section {
+  flex: 0 0 400px;
+  background: white;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Right result section (scrollable) */
+.result-section {
+  flex: 1;
+  background: white;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+/* Keep the heading fixed at the top of form */
+.form-section h1 {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding-bottom: 10px;
+}
+
+/* Responsive fallback */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .result-section {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+
+/* Heading */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* Form styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+label {
+  font-weight: 600;
+  color: #34495e;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Result section */
+h2, h3 {
+  color: #2d3436;
+  margin-top: 20px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+img {
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Error message */
+.error {
+  color: #e74c3c;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Responsive layout for small screens */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+}
