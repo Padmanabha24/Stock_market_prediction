@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CNN Stock Prediction</title>
+    <link rel="stylesheet" href="/static/cnn.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">Stock Predictor</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/randomforest">RandomForest</a></li>
+            <li><a href="/lstm">LSTM</a></li>
+            <li><a href="/cnn" class="active">CNN</a></li>
+           
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="animated-title">CNN Model</h1>
+        <p class="hero-subtitle">Pattern recognition with image and numerical data analysis.</p>
+    </div>
+
+    <!-- Model Description -->
+    <section class="model-description">
+        <div class="container">
+            <h2>About CNN</h2>
+            <p>Convolutional Neural Networks (CNNs) detect patterns in stock data and charts, combining numerical time-series analysis with image-based feature extraction for robust predictions.</p>
+            <ul>
+                <li><strong>Strengths:</strong> Excels at pattern recognition, integrates image and numerical data.</li>
+                <li><strong>Use Case:</strong> Predicting trends using stock charts and technical indicators.</li>
+                <li><strong>Features:</strong> Supports RSI, volume, and chart image analysis.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Prediction Form -->
+    <section id="cnn" class="prediction-section">
+        <div class="container">
+            <div class="form-section">
+                <h2>Predict Stock Trends</h2>
+                <form method="post" action="/cnn" enctype="multipart/form-data" onsubmit="showLoading()">
+                    <div class="form-group">
+                        <label for="ticker">Ticker Symbol:</label>
+                        <input type="text" id="ticker" name="ticker" placeholder="e.g., AAPL" required pattern="[A-Za-z0-9^.-]{1,10}">
+                        <small>Enter a valid stock ticker (e.g., AAPL, TSLA).</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="interval">Interval:</label>
+                        <select id="interval" name="interval" required>
+                            <option value="1d">Daily</option>
+                            <option value="1wk">Weekly</option>
+                            <option value="1mo">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" id="start_date" name="start_date">
+                        <small>Optional: Defaults to 10 years ago.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" id="end_date" name="end_date">
+                        <small>Optional: Defaults to today.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="graph_style">Graph Style:</label>
+                        <select id="graph_style" name="graph_style" required>
+                            <option value="line">Line</option>
+                            <option value="bar">Bar</option>
+                            <option value="step">Step</option>
+                            <option value="scatter">Scatter</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="chart_image">Previous Year Stock Chart (Optional):</label>
+                        <input type="file" id="chart_image" name="chart_image" accept="image/png,image/jpeg">
+                        <small>Upload a PNG/JPEG chart of the stock's previous year data.</small>
+                    </div>
+                    <button type="submit" class="btn-primary">Run Prediction</button>
+                </form>
+                <div id="loading" class="loading" style="display: none;">Processing...</div>
+            </div>
+
+            <div class="result-section">
+                {% if result %}
+                    <h2>Prediction Results for {{ result.ticker }}</h2>
+                    {% if result.status == "success" %}
+                        <table class="result-table">
+                            <tr>
+                                <th>Metric</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td>Precision Score</td>
+                                <td>{{ "%.2f" % (result.precision * 100) }}%</td>
+                            </tr>
+                            <tr>
+                                <td>Prediction Distribution</td>
+                                <td>{{ result.prediction_distribution | tojson }}</td>
+                            </tr 
+                            <tr>
+                                <td>Target Distribution</td>
+                                <td>{{ result.target_distribution | tojson }}</td>
+                            </tr>
+                        </table>
+                        <div class="chart-container">
+                            <h3>Actual Target</h3>
+                            <img src="data:image/png;base64,{{ result.image_actual }}" alt="Actual Graph" class="chart-img">
+                        </div>
+                        <div class="chart-container">
+                            <h3>Predicted Target</h3>
+                            <img src="data:image/png;base64,{{ result.image_predicted }}" alt="Predicted Graph" class="chart-img">
+                        </div>
+                        <div class="chart-container">
+                            <h3>Target Distribution</h3>
+                            <img src="data:image/png;base64,{{ result.image_target_pie }}" alt="Target Pie Chart" class="chart-img">
+                        </div>
+                        <div class="chart-container">
+                            <h3>Prediction Distribution</h3>
+                            <img src="data:image/png;base64,{{ result.image_prediction_pie }}" alt="Prediction Pie Chart" class="chart-img">
+                        </div>
+                    {% else %}
+                        <p class="error">Error: {{ result.message }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Stock Predictor. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:support@stockpredictor.com">support@stockpredictor.com">support@stockpredictor.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
